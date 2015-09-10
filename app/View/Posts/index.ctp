@@ -50,6 +50,30 @@
 
 
 <h1>Blog posts</h1>
+<h2>for文の場合</h2>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Created</th>
+    </tr>
+
+    <!-- ここから、$posts配列をループして、投稿記事の情報を表示 -->
+    <?php for ($i = 0; $i < count($posts); $i++): ?>
+    <?php 
+        echo $i;
+        // $iは、0から始まり、count($posts)の数に達するまで毎回1ずつ増えます。
+        // その$iを利用して、$postsの最初の配列のindexに当て込めば、
+        // 繰り返し処理があるごとに違うデータを取得できます。
+    ?>
+    <tr>
+      <td><?php echo $posts[$i]['Post']['id']; ?></td>
+      <td><a href="/posts/view/<?php echo $posts[$i]['Post']['id']; ?>"><?php echo $posts[$i]['Post']['title']; ?></a></td>
+      <td><?php echo $posts[$i]['Post']['created']; ?></td>
+    </tr>
+    <?php endfor; ?>
+</table>
+
 <h2>foreachの場合</h2>
 <table>
     <tr>
