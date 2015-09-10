@@ -1,5 +1,6 @@
 <?php
     class PostsController extends AppController {
+        public $helpers = array('Html','Form');
         public function index() {
             $posts = $this->Post->find('all');
 
@@ -35,6 +36,28 @@
             // postsという変数にそのデータを代入してViewで使えるようにするためのコードです。
 
         }
+
+        public function view($id = null) {
+            if (!$id) {
+                throw new NotFoundException(__('Invalid post'));
+            }
+
+            // findById()関数
+            // この関数は、指定したテーブルのidが一致するデータ一件を取得する
+            // このコードの場合、$this->Postでpostsテーブルの中を、
+            // findById($id)で$idに入ってきたid(URLの/posts/view/id)を
+            // 使って検索している。
+            // その結果を$post変数に代入している
+            $post = $this->Post->findById($id);
+            
+            if (!$post) {
+                throw new NotFoundException(__('Invalid post'));
+            }
+
+            // $postとしてview側で使用できるようにsetする
+            $this->set('post', $post);
+        }
+
 
     }
 ?>
