@@ -44,6 +44,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 			<?php echo $this->Session->flash(); ?>
 
+			<!-- content部分にURLリクエストに応じたViewの要素を返す -->
 			<?php echo $this->fetch('content'); ?>
 			
 		</div>
