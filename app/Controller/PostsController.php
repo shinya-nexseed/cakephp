@@ -86,6 +86,25 @@
                 $this->Session->setFlash(__('Unable to add your post.'));
             }
         }
+
+        public function delete($id) {
+            if ($this->request->is('get')) {
+                throw new MethodNotAllowedException();
+            }
+
+            // delete()でDELETE処理を実行 (引数に削除したいデータのidを指定)
+            if ($this->Post->delete($id)) {
+                $this->Session->setFlash(
+                    __('The post with id: %s has been deleted.', h($id))
+                );
+            } else {
+                $this->Session->setFlash(
+                    __('The post with id: %s could not be deleted.', h($id))
+                );
+            }
+
+            return $this->redirect(array('action' => 'index'));
+        }
     }
 ?>
 
