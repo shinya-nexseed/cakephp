@@ -1,7 +1,9 @@
 <?php
     class PostsController extends AppController {
         public function index() {
-            $this->set('posts', $this->Post->find('all'));
+            $posts = $this->Post->find('all');
+
+            $this->set('posts', $posts);
 
             // PostsControllerのindex()関数について
             // Controller内で定義された関数のことを、フレームワークではアクションと呼びます。
@@ -33,6 +35,7 @@
             // postsという変数にそのデータを代入してViewで使えるようにするためのコードです。
 
         }
+
     }
 ?>
 
