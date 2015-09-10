@@ -58,7 +58,34 @@
             $this->set('post', $post);
         }
 
+        public function add() {
+            // if ($_REQUEST['POST'] == 'POST')
+            // Twitter_bbsなどピュアPHPで実装してきた上記の意味
+            // Formからsumit処理が行われた際のmethodの中身、リクエストがgetなのかpostなのかを判定し、
+            // postならデータの入力として扱うための条件分岐。
+            // $this->request->is()はリクエスト処理を判定するための記述
+            if ($this->request->is('post')) {
 
+                // データの追加
+                // CakePHPでデータをDBに追加するには、
+                // create()をまず呼び出し、その後にsave()を使って
+                // requestの中にあるdataを保存する。
+                $this->Post->create();
+                if ($this->Post->save($this->request->data)) {
+                    // Flashメッセージを出す
+                    // ユーザーが行った処理が正常に実行されたかどうかをユーザー自身に
+                    // 知らせるための機能
+                    $this->Session->setFlash(__('Your post has been saved.'));
+
+                    // $this->redirect()
+                    // 指定したページに遷移する
+                    // returnを入れることでここで一連の処理を終了する
+                    // ピュアPHPで使っていたheader()と同じ役割
+                    return $this->redirect(array('action' => 'index'));
+                }
+                $this->Session->setFlash(__('Unable to add your post.'));
+            }
+        }
     }
 ?>
 

@@ -48,6 +48,15 @@
     var_dump($posts[2]['Post']['title']);
 ?>
 
+<?php
+    echo $this->Html->link( // <a>タグを作成
+        'Add Post', // 画面に表示するリンク文字
+        array('controller' => 'posts', 'action' => 'add') // Controllerとactionを指定
+    );
+?>
+
+<!-- ピュアPHPでadd画面へのリンク -->
+<a href="/posts/add">Add Post</a>
 
 <h1>Blog posts</h1>
 <h2>for文の場合</h2>
