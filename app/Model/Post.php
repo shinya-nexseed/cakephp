@@ -14,6 +14,14 @@
                 'rule' => 'notEmpty'
             )
         );
+
+        // 指定したModelクラスに現Modelクラスが属することを表す
+        public $belongsTo = array(
+            'Category' => array(
+                'className' => 'Category',
+                'foreignKey' => 'category_id'
+            )
+        );
     }
 
 ?>

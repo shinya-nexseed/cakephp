@@ -43,9 +43,9 @@
     var_dump($posts[0]['Post']['modified']);
 
     // すべての要素のtitleのみ取得
-    var_dump($posts[0]['Post']['title']);
-    var_dump($posts[1]['Post']['title']);
-    var_dump($posts[2]['Post']['title']);
+    // var_dump($posts[0]['Post']['title']);
+    // var_dump($posts[1]['Post']['title']);
+    // var_dump($posts[2]['Post']['title']);
 ?>
 
 <?php
@@ -88,6 +88,7 @@
     <tr>
         <th>Id</th>
         <th>Title</th>
+        <th>Category</th>
         <th>Action</th>
         <th>Created</th>
     </tr>
@@ -99,6 +100,7 @@
       <td><?php echo $post['Post']['id']; ?></td>
       <td><?php echo $this->Html->link($post['Post']['title'],
 array('controller' => 'posts', 'action' => 'view', $post['Post']['id'])); ?></td>
+      <td><?php echo $post['Category']['name']; ?></td>
       <td>
         <?php echo $this->Form->postLink(
             'Delete',

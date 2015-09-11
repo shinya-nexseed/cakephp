@@ -1,6 +1,10 @@
 <?php
     class PostsController extends AppController {
         public $helpers = array('Html','Form');
+
+        // アソシエーションで複数のModelとひもづける場合は明示的に指定する必要がある
+        public $uses = array('Post','Category');
+
         public function index() {
             $posts = $this->Post->find('all');
 
@@ -59,6 +63,18 @@
         }
 
         public function add() {
+
+            //categoriesデータ取得
+            // find('list')
+            // View側でvar_dump()して要確認
+            // allと同じく全件を取得するが、取得する際一件一件に数字がつく
+            // 選択ラベルなどを作成するのに便利なデータの取り方
+            $categories = $this->Category->find('list');
+
+            // 下記書き方の省略版
+            // $this->set('categories', $categories);
+            $this->set(compact('categories'));
+
             // if ($_REQUEST['POST'] == 'POST')
             // Twitter_bbsなどピュアPHPで実装してきた上記の意味
             // Formからsumit処理が行われた際のmethodの中身、リクエストがgetなのかpostなのかを判定し、
@@ -84,6 +100,43 @@
                     return $this->redirect(array('action' => 'index'));
                 }
                 $this->Session->setFlash(__('Unable to add your post.'));
+            }
+        }
+
+        public function edit($id = null) {
+
+            // まずは指定されたpostデータが存在するか検証
+            if (!$id) {
+                throw new NotFoundException(__('Invalid post'));
+            }
+
+            // 次にそのpostデータが空でないか検証
+            $post = $this->Post->findById($id);
+            if (!$post) {
+                throw new NotFoundException(__('Invalid post'));
+            }
+            
+            $categories = $this->Category->find('list');
+            $this->set(compact('categories'));
+
+            // リクエストがpostもしくはputかどうかで条件分岐
+            // putとは、postと同じようにデータを送る側のリクエストメソッド
+            // postは新規データの入力 (INSERT) であるのに対し、
+            // putは既存データの更新 (UPDATE) の際のリクエスト
+
+            // データがすでに存在していて、書き換える際の処理
+            if ($this->request->is(array('post', 'put'))) {
+                $this->Post->id = $id;
+                if ($this->Post->save($this->request->data)) {
+                    $this->Session->setFlash(__('Your post has been updated.'));
+                    return $this->redirect(array('action' => 'index'));
+                }
+                $this->Session->setFlash(__('Unable to update your post.'));
+            }
+
+            // データが存在していなければそのまま新規で保存
+            if (!$this->request->data) {
+                $this->request->data = $post;
             }
         }
 
